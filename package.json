@@ -1,5 +1,5 @@
 {
-  "name": "megalo-env-plugin",
+  "name": "@megalo/env-plugin",
   "version": "1.0.0",
   "description": "为megalo-cli创建的工程提供模式",
   "main": "index.js",
