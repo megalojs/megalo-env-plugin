@@ -19,14 +19,14 @@ function resolve(root) {
     args[_key - 1] = arguments[_key];
   }
 
-  return _path2.default.resolve.apply(_path2.default, [__dirname, root].concat(args));
+  return _path2.default.resolve.apply(_path2.default, [root].concat(args));
 }
 
 /**
  * 读取.env文件配置
  * @param {String} path
  */
-function loadEnv() {
+function loadEnvConfig() {
   var path = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '.env';
 
   var config = parse(_fs2.default.readFileSync(path, 'utf-8'));
@@ -42,7 +42,7 @@ function parse(src) {
   var res = {};
   src.split('\n').forEach(function (line) {
     // matching "KEY' and 'VAL' in 'KEY=VAL'
-    var keyValueArr = line.match(/^\s*([\w\.\-]+)\s*=\s*(.*)?\s*$/);
+    var keyValueArr = line.match(/^\s*([\w.-]+)\s*=\s*(.*)?\s*$/);
     // matched?
     if (keyValueArr != null) {
       var key = keyValueArr[1];
@@ -63,15 +63,14 @@ function parse(src) {
   return res;
 }
 
-var prefixRE = /^VUE_APP_/;
 /**
- * 过滤出VUE_APP_前缀的环境变量
+ * 默认过滤出VUE_APP_前缀的环境变量
  * @param {Boolean} raw
  */
-function resolveClientEnv(raw) {
+function resolveClientEnv(filter, raw) {
   var env = {};
   Object.keys(process.env).forEach(function (key) {
-    if (prefixRE.test(key) || key === 'NODE_ENV') {
+    if (filter.test(key) || key === 'NODE_ENV' || key === 'platform') {
       env[key] = process.env[key];
     }
   });
@@ -90,6 +89,6 @@ function resolveClientEnv(raw) {
 
 exports.default = {
   resolve: resolve,
-  loadEnv: loadEnv,
+  loadEnvConfig: loadEnvConfig,
   resolveClientEnv: resolveClientEnv
 };
