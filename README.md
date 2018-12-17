@@ -17,3 +17,7 @@ module.exports = {
     ]
 }
 ```
+
+## 文档
+
+点击[这里查看](https://cli.vuejs.org/zh/guide/mode-and-env.html#%E6%A8%A1%E5%BC%8F),功效和vue-cli3的环境变量和模式一致
