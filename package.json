@@ -1,13 +1,13 @@
 {
   "name": "@megalo/env-plugin",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "为megalo-cli创建的工程提供模式",
   "main": "index.js",
   "scripts": {
     "precommit": "npm run lint",
     "lint": "standard \"src/**/*.js\" --fix",
     "build": "babel --copy-files --out-dir dist src",
-    "test": "node ./test --mode test"
+    "test": "node ./test --mode customer --platform swan"
   },
   "repository": {
     "type": "git",
