@@ -51,7 +51,7 @@ function parse (src) {
 function resolveClientEnv (filter, raw) {
   const env = {}
   Object.keys(process.env).forEach(key => {
-    if (filter.test(key) || key === 'NODE_ENV' || key === 'platform') {
+    if (filter.test(key) || key === 'NODE_ENV' || key === 'PLATFORM') {
       env[key] = process.env[key]
     }
   })
@@ -68,8 +68,13 @@ function resolveClientEnv (filter, raw) {
   }
 }
 
+function warn (...args) {
+  console.warn('[Warn]: ', ...args)
+}
+
 export default {
   resolve,
   loadEnvConfig,
-  resolveClientEnv
+  resolveClientEnv,
+  warn
 }

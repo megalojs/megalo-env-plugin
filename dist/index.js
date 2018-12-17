@@ -20,6 +20,13 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
+/** Currently supported platform */
+var defaultSupportPlatform = {
+  'wechat': true,
+  'alipay': true,
+  'swan': true
+};
+
 var EnvPlugin = function () {
   /**
    * @param {Object} options - The parameters.
@@ -36,12 +43,18 @@ var EnvPlugin = function () {
 
     _classCallCheck(this, EnvPlugin);
 
+    this.root = root;
     var argv = (0, _minimist2.default)(process.argv.slice(2));
     /** There are three default modes：development、production、test */
     var mode = argv.mode || 'development';
 
     /** There are three default platform：wechat、alipay、baidu */
-    process.env.platform = argv.platform || 'wechat';
+    var platform = argv.platform || 'wechat';
+    if (!defaultSupportPlatform[platform]) {
+      _utils2.default.warn('The Platform option maybe does not support setting the value "' + platform + '"');
+    }
+
+    process.env.PLATFORM = platform;
 
     // load mode .env
     if (mode) {
@@ -56,7 +69,7 @@ var EnvPlugin = function () {
   _createClass(EnvPlugin, [{
     key: 'loadEnv',
     value: function loadEnv(mode) {
-      var basePath = _utils2.default.resolve('.env' + (mode ? '.' + mode : ''));
+      var basePath = _utils2.default.resolve(this.root, '.env' + (mode ? '.' + mode : ''));
 
       var localPath = basePath + '.local';
 
@@ -82,7 +95,7 @@ var EnvPlugin = function () {
         // as that is necessary for tests to not be affected by each other
         var shouldForceDefaultEnv = process.env.VUE_CLI_TEST && !process.env.VUE_CLI_TEST_TESTING_ENV;
         var defaultNodeEnv = mode === 'production' || mode === 'test' ? mode : 'development';
-        console.log('process.env.NODE_ENV:', process.env.NODE_ENV);
+        // console.log('process.env.NODE_ENV:', process.env.NODE_ENV)
         if (shouldForceDefaultEnv || process.env.NODE_ENV == null) {
           process.env.NODE_ENV = defaultNodeEnv;
         }

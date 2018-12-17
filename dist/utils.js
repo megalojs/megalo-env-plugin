@@ -70,7 +70,7 @@ function parse(src) {
 function resolveClientEnv(filter, raw) {
   var env = {};
   Object.keys(process.env).forEach(function (key) {
-    if (filter.test(key) || key === 'NODE_ENV' || key === 'platform') {
+    if (filter.test(key) || key === 'NODE_ENV' || key === 'PLATFORM') {
       env[key] = process.env[key];
     }
   });
@@ -87,8 +87,19 @@ function resolveClientEnv(filter, raw) {
   };
 }
 
+function warn() {
+  var _console;
+
+  for (var _len2 = arguments.length, args = Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
+    args[_key2] = arguments[_key2];
+  }
+
+  (_console = console).warn.apply(_console, ['[Warn]: '].concat(args));
+}
+
 exports.default = {
   resolve: resolve,
   loadEnvConfig: loadEnvConfig,
-  resolveClientEnv: resolveClientEnv
+  resolveClientEnv: resolveClientEnv,
+  warn: warn
 };

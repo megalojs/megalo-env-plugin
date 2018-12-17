@@ -2,7 +2,15 @@ import { DefinePlugin } from 'webpack'
 import minimist from 'minimist'
 import utils from './utils'
 
-export default class EnvPlugin {
+/** Currently supported platform */
+const defaultSupportPlatform = {
+  'wechat': true,
+  'alipay': true,
+  'swan': true
+}
+
+class EnvPlugin {
+  root
   /**
    * @param {Object} options - The parameters.
    * @param {String} [options.root=./] - The folder location of the environment variable.
@@ -13,12 +21,18 @@ export default class EnvPlugin {
     root = './',
     filter = /^VUE_APP_/
   } = {}) {
+    this.root = root
     const argv = minimist(process.argv.slice(2))
     /** There are three default modes：development、production、test */
     const mode = argv.mode || 'development'
 
     /** There are three default platform：wechat、alipay、baidu */
-    process.env.platform = argv.platform || 'wechat'
+    const platform = argv.platform || 'wechat'
+    if (!defaultSupportPlatform[platform]) {
+      utils.warn(`The Platform option maybe does not support setting the value "${platform}"`)
+    }
+
+    process.env.PLATFORM = platform
 
     // load mode .env
     if (mode) {
@@ -31,7 +45,7 @@ export default class EnvPlugin {
   }
 
   loadEnv (mode) {
-    const basePath = utils.resolve(`.env${mode ? `.${mode}` : ``}`)
+    const basePath = utils.resolve(this.root, `.env${mode ? `.${mode}` : ``}`)
 
     const localPath = `${basePath}.local`
 
@@ -62,7 +76,7 @@ export default class EnvPlugin {
       const defaultNodeEnv = (mode === 'production' || mode === 'test')
         ? mode
         : 'development'
-      console.log('process.env.NODE_ENV:', process.env.NODE_ENV)
+      // console.log('process.env.NODE_ENV:', process.env.NODE_ENV)
       if (shouldForceDefaultEnv || process.env.NODE_ENV == null) {
         process.env.NODE_ENV = defaultNodeEnv
       }
@@ -72,3 +86,5 @@ export default class EnvPlugin {
     }
   }
 }
+
+export default EnvPlugin
