@@ -36,7 +36,7 @@ $ npm run dev:wechat
 
 ## 控制台参数
 
-`--mode` 
+### `--mode` 
 
 默认值是 `development` , 本库内置了三个模式 `development、test、production` ,其中 `development` 模式下 `process.env.NODE_ENV` 的值是 `development` ,webpack将启用`开发模式`，监听你的项目文件修改，每次保存都会重新编译代码，自动刷新
 
@@ -50,7 +50,7 @@ $ npm run dev:wechat
 NODE_ENV=development
 ```
 
-`--platform`
+### `--platform`
 
 默认值是 `wechat` , 目前在 `megalo` 工程中支持三个平台的值: `wechat、alipay、swan` ,你可以在nodejs中或者项目中通过 `process.env.PLATFORM` 访问到它
 
