@@ -59,7 +59,7 @@ NODE_ENV=development
 
 ## 详细文档
 
-点击[这里查看](https://cli.vuejs.org/zh/guide/mode-and-env.html#%E6%A8%A1%E5%BC%8F),功效和vue-cli3的环境变量和模式一致
+点击[这里查看](https://cli.vuejs.org/zh/guide/mode-and-env.html#%E6%A8%A1%E5%BC%8F),功效和vue-cli3的环境变量和模式一致
 
 ## 原理说明
 根据用户执行cli命令时，传递的 `mode` 参数，读取指定目录下（默认项目根目录）的 `.env` 文件内的键值对，注入到Nodejs的环境变量对象 `process.env` 身上,然后通过 `webpack.DefinePlugin` 插件，替换项目中写的 `process.env.xxx` 为  `.env` 文件配置的值
