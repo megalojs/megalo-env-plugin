@@ -28,6 +28,10 @@ module.exports = {
 ```json
 "dev:wechat": "node ./build/megalo-cli.js --mode development --platform wechat",
 ```
+或者
+```json
+"dev:wechat": "webpack -config ./build/你的webpack配置文件 --mode development --platform wechat",
+```
 
 然后执行:
 ```bash
